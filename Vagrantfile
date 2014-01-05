@@ -18,14 +18,22 @@ WP_ENVIRONMENT.each do |env_name, default|
   Object.const_set(env_name, value)
 end
 
-if !WP_PROJECT_TYPES.include?(WP_PROJECT_TYPE)
-  abort "Unrecognized project type set for WP_PROJECT_TYPE (should be one of #{WP_PROJECT_TYPES.join(', ')})"
-end
-
+# Public root is the same regardless of project type.
 WP_ROOT = "/var/www/#{WP_PROJECT_NAME}/public"
 
-SOURCE_DIR = "./public"
-TARGET_DIR = "/var/www/#{WP_PROJECT_NAME}/public"
+case WP_PROJECT_TYPE
+when "site"
+  # Symlink entire site, including plugins and themes.
+  SOURCE_DIR = "./public"
+  TARGET_DIR = "/var/www/#{WP_PROJECT_NAME}/public"
+when "plugin"
+  puts "Symlink plugin for local dev."
+when "theme"
+  puts "Symlink theme for local dev."
+else
+  abort "Unrecognized project type \"#{WP_PROJECT_TYPE}\" set for WP_PROJECT_TYPE (should be one of #{WP_PROJECT_TYPES.join(', ')})."
+end
+
 
 Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
