@@ -1,10 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Retrieve configurable vars from environment
-WP_IP = ENV['WP_IP']
-WP_HOSTNAME = ENV['WP_HOSTNAME']
-WP_PROJECT_NAME = ENV['WP_PROJECT_NAME']
+# User configurable environment variables.
+# Override these, for example, in .exports file.
+WP_ENVIRONMENT = {
+  'WP_IP' => '33.33.33.30',
+  'WP_HOSTNAME' => 'local.wordpress.scaffold.com',
+  'WP_PROJECT_NAME' => 'scaffold'
+}
+
+# Set default for variables not found in environment.
+WP_ENVIRONMENT.each do |env_name, default|
+  value = ENV[env_name].nil? ? default : ENV[env_name]
+  Object.const_set(env_name, value)
+end
 
 WP_ROOT = "/var/www/#{WP_PROJECT_NAME}/public"
 
