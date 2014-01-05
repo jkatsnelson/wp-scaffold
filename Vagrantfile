@@ -34,13 +34,6 @@ else
   abort "Unrecognized project type \"#{WP_PROJECT_TYPE}\" set for WP_PROJECT_TYPE (should be one of #{WP_PROJECT_TYPES.join(', ')})."
 end
 
-# We have lift off.
-class String
-def green;          "\033[32m#{self}\033[0m" end
-end
-puts "Setting up scaffolding for #{WP_PROJECT_TYPE} \"#{WP_PROJECT_NAME}\".".green
-puts "Project will be available at #{WP_HOSTNAME} at IP #{WP_IP}.".green
-
 Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
@@ -97,6 +90,7 @@ Vagrant.configure("2") do |config|
     }
 
     chef.add_recipe "wordpress::default"
+    chef.add_recipe "wp-cli::default"
   end
 
   #
