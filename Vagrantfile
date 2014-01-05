@@ -1,9 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-WP_PROJECT_NAME = "scaffold"
-WP_IP = "33.33.33.30"
-WP_HOSTNAME = "local.wordpress.#{WP_PROJECT_NAME}.com"
+# Retrieve configurable vars from environment
+WP_IP = ENV['WP_IP']
+WP_HOSTNAME = ENV['WP_HOSTNAME']
+WP_PROJECT_NAME = ENV['WP_PROJECT_NAME']
+
 WP_ROOT = "/var/www/#{WP_PROJECT_NAME}/public"
 
 SOURCE_DIR = "./public"
