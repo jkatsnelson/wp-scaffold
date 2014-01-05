@@ -1,16 +1,20 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-projectname = "scaffold"
-repo_root = "/var/www/#{projectname}"
-web_root = "/var/www/#{projectname}/public"
+WP_PROJECT_NAME = "scaffold"
+WP_IP = "33.33.33.30"
+WP_HOSTNAME = "local.wordpress.#{WP_PROJECT_NAME}.com"
+WP_ROOT = "/var/www/#{WP_PROJECT_NAME}/public"
+
+SOURCE_DIR = "./public"
+TARGET_DIR = "/var/www/#{WP_PROJECT_NAME}/public"
 
 Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.hostname = "local.wordpress.scaffold.com"
+  config.vm.hostname = WP_HOSTNAME
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "opscode-centos-6.5"
@@ -23,7 +27,7 @@ Vagrant.configure("2") do |config|
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
   # TODO: Configure using private network + NFS
-  config.vm.network :private_network, ip: "33.33.33.10"
+  config.vm.network :private_network, ip: WP_IP
 
   # Enabling the Berkshelf plugin. To enable this globally, add this configuration
   # option to your ~/.vagrant.d/Vagrantfile file
@@ -33,7 +37,7 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "./public", "#{web_root}"
+  config.vm.synced_folder SOURCE_DIR, TARGET_DIR
 
   # Available Wordpress cookbook attributes
   # node['wordpress']['version'] - Version of WordPress to download. Use 'latest' to download most recent version.
@@ -53,13 +57,9 @@ Vagrant.configure("2") do |config|
         :server_repl_password => '7EiTyP82a37R3xnD4ZW26emLRYY3PX'
         },
       :wordpress => {
-        :parent_dir => repo_root,
-        :dir => web_root,
+        :dir => WP_ROOT,
         :db => {
-          :name => "#{projectname}_wordpress",
-          :user => "#{projectname}_admin",
-          :pass => '7EiTyP82a37R3xnD4ZW26emLRYY3PX',
-          :prefix => projectname
+          :pass => '7EiTyP82a37R3xnD4ZW26emLRYY3PX'
         }
       }
     }
@@ -69,6 +69,6 @@ Vagrant.configure("2") do |config|
 
   #
   config.vm.provision :shell do |shell|
-    shell.inline = "sudo mount -t vboxsf -o uid=`id -u apache`,gid=`getent group apache | cut -d: -f3` #{web_root} #{web_root}"
+    shell.inline = "sudo mount -t vboxsf -o uid=`id -u apache`,gid=`getent group apache | cut -d: -f3` #{TARGET_DIR} #{TARGET_DIR}"
   end
 end
