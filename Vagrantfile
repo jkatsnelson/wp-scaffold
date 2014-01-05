@@ -19,13 +19,13 @@ WP_ENVIRONMENT.each do |env_name, default|
 end
 
 # Public root is the same regardless of project type.
-WP_ROOT = "/var/www/#{WP_PROJECT_NAME}/public"
+WP_ROOT = "/var/www/#{WP_PROJECT_NAME}"
 
 case WP_PROJECT_TYPE
 when "site"
   # Symlink entire site, including plugins and themes.
-  SOURCE_DIR = "./public"
-  TARGET_DIR = "/var/www/#{WP_PROJECT_NAME}/public"
+  SOURCE_DIR = "../sites/#{WP_PROJECT_NAME}"
+  TARGET_DIR = "/var/www/#{WP_PROJECT_NAME}"
 when "plugin"
   puts "Symlink plugin for local dev."
 when "theme"
