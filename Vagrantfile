@@ -1,18 +1,25 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+WP_PROJECT_TYPES = ["site", "plugin", "theme"]
+
 # User configurable environment variables.
 # Override these, for example, in .exports file.
 WP_ENVIRONMENT = {
   'WP_IP' => '33.33.33.30',
   'WP_HOSTNAME' => 'local.wordpress.scaffold.com',
-  'WP_PROJECT_NAME' => 'scaffold'
+  'WP_PROJECT_NAME' => 'scaffold',
+  'WP_PROJECT_TYPE' => 'site'
 }
 
 # Set default for variables not found in environment.
 WP_ENVIRONMENT.each do |env_name, default|
   value = ENV[env_name].nil? ? default : ENV[env_name]
   Object.const_set(env_name, value)
+end
+
+if !WP_PROJECT_TYPES.include?(WP_PROJECT_TYPE)
+  abort "Unrecognized project type set for WP_PROJECT_TYPE (should be one of #{WP_PROJECT_TYPES.join(', ')})"
 end
 
 WP_ROOT = "/var/www/#{WP_PROJECT_NAME}/public"
