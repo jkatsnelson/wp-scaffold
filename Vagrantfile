@@ -27,9 +27,9 @@ when "site"
   SOURCE_DIR = "../sites/#{WP_PROJECT_NAME}"
   TARGET_DIR = "/var/www/#{WP_PROJECT_NAME}"
 when "plugin"
-  puts "Symlink plugin for local dev."
+  puts "Plugin scaffold unimplemented."
 when "theme"
-  puts "Symlink theme for local dev."
+  puts "Theme scaffold unimplemented."
 else
   abort "Unrecognized project type \"#{WP_PROJECT_TYPE}\" set for WP_PROJECT_TYPE (should be one of #{WP_PROJECT_TYPES.join(', ')})."
 end
@@ -91,6 +91,7 @@ Vagrant.configure("2") do |config|
 
     chef.add_recipe "wordpress::default"
     chef.add_recipe "wp-cli::default"
+    chef.add_recipe "composer::default"
   end
 
   #
