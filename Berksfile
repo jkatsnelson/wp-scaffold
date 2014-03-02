@@ -1,5 +1,5 @@
+chef_api "http://10.0.0.4:4000", node_name: "chef-zero"
 site :opscode
 
-cookbook "wordpress", "~> 1.2.0"
-cookbook "wp-cli", git: "git@github.com:BlakeTidwell/cookbook-wp-cli.git"
-cookbook "composer", git: "git@github.com:zircote/chef-composer.git"
+# TODO: Move to community site
+cookbook "wp-scaffold", path: "#{ENV['HOME']}/Code/ops_workspace/cookbooks/wp-scaffold"
