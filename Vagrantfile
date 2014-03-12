@@ -3,7 +3,7 @@
 
 WP_IP = '33.33.33.30'
 WP_PROJECT_NAME = 'scaffold'
-WP_HOSTNAME = "local.wordpress.#{WP_PROJECT_NAME}.com"
+WP_HOSTNAME = "local.#{WP_PROJECT_NAME}.wordpress.dev"
 
 # Public root is the same regardless of project type.
 WP_ROOT = "/var/www/#{WP_PROJECT_NAME}"
@@ -77,6 +77,9 @@ Vagrant.configure("2") do |config|
         :server_root_password => '9237e4cd4030be8c4b45c7972e5eeb8a',
         :server_debian_password => '9237e4cd4030be8c4b45c7972e5eeb8a',
         :server_repl_password => '9237e4cd4030be8c4b45c7972e5eeb8a'
+      },
+      :wordpress => {
+        :dir => TARGET_DIR
       },
       :wp_scaffold => {
         # Can also override admin name and pass
