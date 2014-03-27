@@ -87,7 +87,8 @@ Vagrant.configure("2") do |config|
         :plugins => {
           # :include => []
           # :exclude => []
-        }
+        },
+        :theme => 'JointsWP'
       }
     }
 
