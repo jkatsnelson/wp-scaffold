@@ -96,4 +96,8 @@ Vagrant.configure("2") do |config|
         "recipe[wp-scaffold::default]"
     ]
   end
+
+  config.vm.provision :shell do |shell|
+    shell.inline = "sudo mount -t vboxsf -o uid=`id -u apache`,gid=`getent group apache | cut -d: -f3` #{TARGET_DIR} #{TARGET_DIR}"
+  end
 end
