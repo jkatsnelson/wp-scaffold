@@ -95,7 +95,7 @@ Vagrant.configure("2") do |config|
     }
 
     chef.run_list = [
-        "recipe[wp-scaffold::default]"
+        "recipe[wp-scaffold::default]",
         "recipe[sendfile::default]"
     ]
   end
