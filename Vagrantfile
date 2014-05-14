@@ -2,14 +2,14 @@
 # vi: set ft=ruby :
 
 WP_IP = '33.33.33.30'
-WP_PROJECT_NAME = 'scaffold'
+WP_PROJECT_NAME = 'vungle'
 WP_HOSTNAME = "local.#{WP_PROJECT_NAME}.wordpress.dev"
 
 # Public root is the same regardless of project type.
 WP_ROOT = "/var/www/#{WP_PROJECT_NAME}"
 
 # Symlink entire site, including plugins and themes.
-SOURCE_DIR = "../site"
+SOURCE_DIR = "../sites/vungle-site"
 TARGET_DIR = "/var/www/#{WP_PROJECT_NAME}"
 
 Vagrant.configure("2") do |config|
@@ -27,11 +27,11 @@ Vagrant.configure("2") do |config|
 
   # Enabling the Berkshelf plugin. To enable this globally, add this configuration
   # option to your ~/.vagrant.d/Vagrantfile file
-  config.berkshelf.enabled = true
+  # config.berkshelf.enabled = true
 
   # Chef Zero?!
-  config.chef_zero.enabled = true
-  config.chef_zero.cookbooks = "#{ENV['HOME']}/Code/ops_workspace/cookbooks"
+  # config.chef_zero.enabled = true
+  # config.chef_zero.cookbooks = "#{ENV['HOME']}/Code/ops_workspace/cookbooks"
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
@@ -61,7 +61,7 @@ Vagrant.configure("2") do |config|
 
   # Enabling the Berkshelf plugin. To enable this globally, add this configuration
   # option to your ~/.vagrant.d/Vagrantfile file
-  config.berkshelf.enabled = true
+  # config.berkshelf.enabled = true
 
   # An array of symbols representing groups of cookbook described in the Vagrantfile
   # to exclusively install and copy to Vagrant's shelf.
@@ -71,7 +71,9 @@ Vagrant.configure("2") do |config|
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
 
-  config.vm.provision :chef_client do |chef|
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = './berks-cookbooks'
+
     chef.json = {
       :mysql => {
         :server_root_password => '9237e4cd4030be8c4b45c7972e5eeb8a',
@@ -94,6 +96,7 @@ Vagrant.configure("2") do |config|
 
     chef.run_list = [
         "recipe[wp-scaffold::default]"
+        "recipe[sendfile::default]"
     ]
   end
 
